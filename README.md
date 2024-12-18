@@ -1,4 +1,4 @@
-# Github following and followers
+# TMDb Movies
 A sample showcases Pagination in a GridView using Swift, SwiftUI, MVVM and Networking for an iOS app.
 
 ## Prerequisites
