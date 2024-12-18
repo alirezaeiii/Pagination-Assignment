@@ -27,11 +27,11 @@ struct ContentView: View {
                 }
                 if(!viewModel.movies.isEmpty) {
                     Spacer()
-                    loadingOrErrorView()
+                    loadingOrErrorView
                 }
             }
             if(viewModel.movies.isEmpty) {
-                loadingOrErrorView()
+                loadingOrErrorView
             }
         }.task {
             await viewModel.loadMoreData()
@@ -39,17 +39,20 @@ struct ContentView: View {
     }
     
     @ViewBuilder
-    private func loadingOrErrorView() -> some View {
-        if viewModel.isLoading  {
+    private var loadingOrErrorView: some View {
+        switch viewModel.viewState {
+        case .loading:
             ProgressView()
-        } else if let error = viewModel.errorMessage  {
+        case .failure(let error):
             errorView(error: error)
+        case .idle:
+            EmptyView()
         }
     }
     
-    private func errorView(error: String) -> some View {
+    private func errorView(error: Error) -> some View {
         VStack {
-            Text(error)
+            Text(error.localizedDescription)
                 .foregroundColor(.red)
                 .multilineTextAlignment(.center)
                 .padding()

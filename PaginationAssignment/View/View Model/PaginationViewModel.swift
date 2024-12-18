@@ -9,10 +9,9 @@ import Foundation
 
 @Observable
 class PaginationViewModel {
-    var isLoading = false
     var movies: [Movie] = []
     var hasMoreData = true
-    var errorMessage: String? = nil
+    var viewState: ViewState = .idle
     
     @ObservationIgnored
     private var currentPage = 1
@@ -26,22 +25,36 @@ class PaginationViewModel {
     
     @MainActor
     func loadMoreData() async {
-        guard !isLoading && hasMoreData else { return }
-        isLoading = true
-        errorMessage = nil
+        guard viewState != .loading && hasMoreData else { return }
+        self.viewState = .loading
         do {
-            let followingRequest = TMDbRequest(path: .movies, page: currentPage)
-            let newItems: TMDbWrapper = try await networkService.perform(request: followingRequest)
+            let request = TMDbRequest(path: .movies, page: currentPage)
+            let newItems: TMDbWrapper = try await networkService.perform(request: request)
             self.movies.append(contentsOf: newItems.movies)
             self.currentPage += 1
             self.hasMoreData = newItems.movies.count == Constants.PAGE_SIZE
+            self.viewState = .idle
         } catch {
-            self.errorMessage = error.localizedDescription
+            self.viewState = .failure(error: error)
         }
-        self.isLoading = false
     }
     
     private struct Constants {
         static let PAGE_SIZE = 20
+    }
+}
+
+enum ViewState: Equatable {
+    case idle
+    case loading
+    case failure(error: Error)
+    
+    static func == (lhs: ViewState, rhs: ViewState) -> Bool {
+        switch (lhs, rhs) {
+        case (.idle, .idle): return true
+        case (.loading, .loading): return true
+        case (.failure(error: _), .failure(error: _)): return true
+        default: return false
+        }
     }
 }
