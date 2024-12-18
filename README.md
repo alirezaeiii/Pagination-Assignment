@@ -3,7 +3,7 @@ A sample showcases Pagination in a GridView using Swift, SwiftUI, MVVM and Netwo
 
 ## Prerequisites
 
-Add your [TMDB](https://www.themoviedb.org/) API key in the `Config/Secrets.xcconfig` file:
+Add your [TMDB](https://www.themoviedb.org/) API key in the `PaginationAssignment/Config/Secrets.xcconfig` file:
 ```
 API_KEY=YOUR_API_KEY
 ```
