@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct PaginationAssignmentApp: App {
+    
+    @State var viewModel = PaginationViewModel(networkService: NetworkService())
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environment(viewModel)
         }
     }
 }
