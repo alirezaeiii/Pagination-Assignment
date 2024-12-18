@@ -26,31 +26,28 @@ struct ContentView: View {
                     }
                 }
                 if(!viewModel.movies.isEmpty) {
-                    if viewModel.isLoading {
-                        VStack {
-                            Spacer()
-                            ProgressView()
-                                .padding(.vertical, 16)
-                        }
-                    } else if let error = viewModel.errorMessage  {
-                        Spacer()
-                        errorView(error: error)
-                    }
+                    Spacer()
+                    loadingOrErrorView()
                 }
             }
             if(viewModel.movies.isEmpty) {
-                if viewModel.isLoading  {
-                    ProgressView()
-                } else if let error = viewModel.errorMessage  {
-                    errorView(error: error)
-                }
+                loadingOrErrorView()
             }
         }.task {
             await viewModel.loadMoreData()
         }
     }
     
-    func errorView(error: String) -> some View {
+    @ViewBuilder
+    private func loadingOrErrorView() -> some View {
+        if viewModel.isLoading  {
+            ProgressView()
+        } else if let error = viewModel.errorMessage  {
+            errorView(error: error)
+        }
+    }
+    
+    private func errorView(error: String) -> some View {
         VStack {
             Text(error)
                 .foregroundColor(.red)
