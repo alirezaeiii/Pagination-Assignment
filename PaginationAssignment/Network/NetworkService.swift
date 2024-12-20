@@ -17,8 +17,8 @@ final class NetworkService: NetworkServiceProtocol {
     private let session: URLSession
     
     private static var urlCache: URLCache {
-        let cacheSizeMemory = 0
-        let cacheSizeDisk = 0
+        let cacheSizeMemory = 20 * 1024 * 1024 // 20 MB
+        let cacheSizeDisk = 100 * 1024 * 1024 // 100 MB
         let cache = URLCache(memoryCapacity: cacheSizeMemory, diskCapacity: cacheSizeDisk, diskPath: "URLCacheDirectory")
         return cache
     }
