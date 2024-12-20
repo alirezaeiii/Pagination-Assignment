@@ -32,15 +32,11 @@ class PaginationViewModel {
             let newItems: TMDbWrapper = try await networkService.perform(request: request)
             self.movies.append(contentsOf: newItems.movies)
             self.currentPage += 1
-            self.hasMoreData = newItems.movies.count == Constants.PAGE_SIZE
+            self.hasMoreData = !newItems.movies.isEmpty
             self.viewState = .idle
         } catch {
             self.viewState = .failure(error: error)
         }
-    }
-    
-    private struct Constants {
-        static let PAGE_SIZE = 20
     }
 }
 

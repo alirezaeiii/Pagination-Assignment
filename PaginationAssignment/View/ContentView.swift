@@ -25,7 +25,7 @@ struct ContentView: View {
                         }
                     }
                 }
-                if(!viewModel.movies.isEmpty) {
+                if !viewModel.movies.isEmpty {
                     Spacer()
                     loadingOrErrorView
                 }
