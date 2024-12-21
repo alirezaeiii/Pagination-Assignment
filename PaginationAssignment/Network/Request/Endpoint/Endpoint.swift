@@ -46,17 +46,17 @@ extension TMDbEndpoint {
             return "3"
         }
         
-        var discover: String {
-            return "discover"
-        }
-        
         var movie: String {
             return "movie"
         }
         
+        var upcoming: String {
+            return "upcoming"
+        }
+        
         var path: String {
             switch self {
-            case .movies: return "/\(version)/\(discover)/\(movie)"
+            case .movies: return "/\(version)/\(movie)/\(upcoming)"
             }
         }
     }
