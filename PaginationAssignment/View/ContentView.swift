@@ -13,25 +13,24 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: Constants.gridItemSize))]) {
-                    ForEach(viewModel.movies, id: \.self.id) { movie in
-                        MovieColumn(movie: movie).onAppear {
-                            if movie == viewModel.movies.last, viewModel.hasMoreData {
-                                Task {
-                                    await viewModel.loadMoreData()
+            if(viewModel.movies.isEmpty) {
+                loadingOrErrorView
+            } else {
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: Constants.gridItemSize))]) {
+                        ForEach(viewModel.movies, id: \.self.id) { movie in
+                            MovieColumn(movie: movie).onAppear {
+                                if movie == viewModel.movies.last, viewModel.hasMoreData {
+                                    Task {
+                                        await viewModel.loadMoreData()
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                if !viewModel.movies.isEmpty {
                     Spacer()
                     loadingOrErrorView
                 }
-            }
-            if(viewModel.movies.isEmpty) {
-                loadingOrErrorView
             }
         }.task {
             await viewModel.loadMoreData()
