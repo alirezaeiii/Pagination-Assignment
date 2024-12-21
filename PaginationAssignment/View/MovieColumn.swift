@@ -13,14 +13,13 @@ struct MovieColumn: View {
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: Constants.cornerRadius)
         let placeHolder = shape.foregroundColor(.secondary)
-            .frame(width: Constants.frameSize, height: Constants.frameSize)
+            .frame(width: Constants.frameWidth, height: Constants.frameHeight)
         VStack {
             if let posterPath = movie.posterPath {
                 AsyncImage(url: URL(string: String(format: Constants.BASE_WIDTH_342_PATH, posterPath))) { image in
                     image
                         .resizable()
                         .scaledToFit()
-                        .frame(width: Constants.frameSize, height: Constants.frameSize)
                         .clipShape(shape)
                 } placeholder: {
                     placeHolder
@@ -35,7 +34,8 @@ struct MovieColumn: View {
     
     private struct Constants {
         static let cornerRadius: Double = 20
-        static let frameSize: Double = 120
+        static let frameWidth: Double = 150
+        static let frameHeight: Double = 240
         static let BASE_WIDTH_342_PATH = "http://image.tmdb.org/t/p/w342%@"
     }
 }
