@@ -17,4 +17,8 @@ struct Movie : Decodable, Equatable {
         case name = "title"
         case posterPath = "poster_path"
     }
+    
+    static func == (lhs: Movie, rhs: Movie) -> Bool {
+        lhs.id == rhs.id
+    }
 }
