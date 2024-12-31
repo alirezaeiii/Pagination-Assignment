@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct MovieColumn: View {
     let movie: Movie
@@ -16,7 +17,7 @@ struct MovieColumn: View {
             .frame(width: Constants.frameWidth, height: Constants.frameHeight)
         VStack {
             if let posterPath = movie.posterPath {
-                AsyncImage(url: URL(string: String(format: Constants.BASE_WIDTH_342_PATH, posterPath))) { image in
+                WebImage(url: URL(string: String(format: Constants.BASE_WIDTH_342_PATH, posterPath))) { image in
                     image
                         .resizable()
                         .scaledToFit()
